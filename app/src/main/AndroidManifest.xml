@@ -1,0 +1,57 @@
+<?xml version="1.0" encoding="utf-8"?>
+<manifest xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools">
+
+    <application
+        android:allowBackup="true"
+        android:dataExtractionRules="@xml/data_extraction_rules"
+        android:fullBackupContent="@xml/backup_rules"
+        android:icon="@mipmap/ic_launcher"
+        android:label="@string/app_name"
+        android:roundIcon="@mipmap/ic_launcher_round"
+        android:supportsRtl="true"
+        android:theme="@style/Theme.Backlog"
+        tools:targetApi="31">
+        <!-- STEP 1: declare our broadcast receiver -->
+        <receiver
+            android:name=".AlarmReceiver"
+            android:enabled="true"
+            android:exported="true">
+        </receiver>
+        <!-- STEP 12: declare what intents our BootReceiver class receives -->
+        <receiver
+            android:name=".BootReceiver"
+            android:enabled="false"
+            android:exported="true">
+            <intent-filter>
+                <action android:name="android.intent.action.BOOT_COMPLETED" />
+            </intent-filter>
+        </receiver>
+        <!-- Declare the MainActivity -->
+        <activity
+            android:name=".MainActivity"
+            android:exported="true"
+            android:label="@string/app_name"
+            android:theme="@style/Theme.AppCompat"> <!-- https://www.geeksforgeeks.org/android-you-need-to-use-a-theme-appcompat-theme-or-descendant-with-this-activity/ -->
+            <intent-filter>
+                <action android:name="android.intent.action.MAIN" />
+                <category android:name="android.intent.category.LAUNCHER" />
+            </intent-filter>
+        </activity>
+        <!-- Declare the PictureActivity: IT WILL NOT OPEN WHEN WE CLICK THE NOTIFICATION OTHERWISE! -->
+        <activity
+            android:name=".PictureActivity"
+            android:label="Picture Activity"
+            android:theme="@style/Theme.AppCompat">
+            <!-- chatgpt: prevents Picture Activity opening automatically: it only opens when click the notification -->
+            <intent-filter>
+                <action android:name="android.intent.action.MAIN" />
+                <category android:name="android.intent.category.LAUNCHER" />
+            </intent-filter>
+        </activity>
+    </application>
+
+    <!-- STEP 13: request the permission to receive the BOOT_COMPLETED intent -->
+    <uses-permission android:name="android.permission.RECEIVE_BOOT_COMPLETED" />
+
+</manifest>
